@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Kartly.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <!--
+    The Domain layer has ZERO dependencies on other projects or NuGet
+    packages (besides the BCL). This is the core rule of Clean
+    Architecture: business entities know nothing about EF Core, ASP.NET,
+    or any framework. Everything else depends on Domain — Domain depends
+    on nothing.
+  -->
+
+</Project>

@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  /* ---- Color tokens (light theme values, used as defaults) ---- */
+  --color-paper: #faf9f5;
+  --color-ink: #1c1c1e;
+  --color-ink-soft: #55554f;
+  --color-line: #e5e3dc;
+  --color-surface: #ffffff;
+  --color-primary: #2d5bff;
+  --color-primary-dark: #1e40e0;
+  --color-accent: #e8a33d;
+  --color-success: #1f9d55;
+  --color-danger: #d64545;
+
+  /* ---- Font tokens ---- */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+/* -----------------------------------------------------------------------
+   Dark theme overrides.
+   ThemeContext toggles a `data-theme="dark"` attribute on <html>. Because
+   every component reads colors via var(--color-*) instead of hardcoded
+   Tailwind color classes, this ONE block is the entire dark mode
+   implementation — no component needs its own dark: variant classes.
+------------------------------------------------------------------------ */
+:root[data-theme="dark"] {
+  --color-paper: #16161a;
+  --color-ink: #f2f1ec;
+  --color-ink-soft: #a8a79e;
+  --color-line: #2e2e33;
+  --color-surface: #1e1e23;
+  --color-primary: #5b7fff;
+  --color-primary-dark: #7c98ff;
+  --color-accent: #f0b559;
+  --color-success: #3ec776;
+  --color-danger: #e2645f;
+}
+
+/* Darkest — near-black, OLED-style, distinct from the softer "dark" above */
+:root[data-theme="darkest"] {
+  --color-paper: #000000;
+  --color-ink: #f5f5f2;
+  --color-ink-soft: #8f8f8a;
+  --color-line: #232323;
+  --color-surface: #0c0c0d;
+  --color-primary: #6f8fff;
+  --color-primary-dark: #8fa6ff;
+  --color-accent: #f0b559;
+  --color-success: #43d182;
+  --color-danger: #ea6f6a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Visible keyboard focus ring everywhere (accessibility) */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Reusable form input styling for admin forms */
+.input {
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-line);
+  background-color: var(--color-surface);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-ink);
+  outline: none;
+}
+.input:focus {
+  border-color: var(--color-primary);
+}
+.price-tag {
+  position: relative;
+  font-family: var(--font-mono);
+}
+.price-tag::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-line);
+}

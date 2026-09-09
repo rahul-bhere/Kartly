@@ -1,0 +1,36 @@
+# Build results
+bin/
+obj/
+out/
+
+# Secrets - NEVER commit these
+**/appsettings.Development.json
+**/appsettings.Production.json
+**/appsettings.Local.json
+*.pfx
+*.user
+
+# User-specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local database files (if using LocalDB/SQLite for quick testing)
+*.mdf
+*.ldf
+*.db
+
+# Admin-uploaded product images — these are runtime/user content, not
+# source code, and can differ per environment/deployment.
+src/Kartly.API/wwwroot/uploads/*
+!src/Kartly.API/wwwroot/uploads/.gitkeep

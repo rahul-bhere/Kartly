@@ -1,0 +1,15 @@
+{
+  "_comment": "Copy this file to 'appsettings.Development.json' (which is gitignored) and fill in real secrets. Or better: use 'dotnet user-secrets' instead — see the backend README's Security section.",
+
+  "Jwt": {
+    "Key": "YOUR_LOCAL_DEV_SECRET_HERE_MIN_32_CHARACTERS"
+  },
+
+  "Groq": {
+    "ApiKey": "YOUR_FREE_GROQ_API_KEY_HERE (get one at console.groq.com)"
+  },
+
+  "Anthropic": {
+    "ApiKey": "YOUR_ANTHROPIC_API_KEY_HERE (only needed if Llm:Provider is Anthropic)"
+  }
+}
