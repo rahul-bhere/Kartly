@@ -1,7 +1,7 @@
-# Kartly.API — Backend (.NET 8 Web API, Clean Architecture)
+# Kartly.API  Backend (.NET 8 Web API, Clean Architecture)
 
 REST API for the Kartly shopping app: JWT auth, role-based authorization,
-products, cart, orders, and simulated payments — backed by SQL Server via
+products, cart, orders, and simulated payments  backed by SQL Server via
 EF Core (Code First).
 
 > **Note on this deliverable:** this backend was written directly as
@@ -28,14 +28,14 @@ kartly-backend/
     │                             # BCrypt password hasher. Implements
     │                             # Application's interfaces.
     └── Kartly.API/                # Controllers, Program.cs, appsettings,
-                                    # middleware. The composition root —
+                                    # middleware. The composition root 
                                     # the only project that references all others.
 ```
 
 **Dependency direction (the whole point of Clean Architecture):**
 `API → Infrastructure → Application → Domain`. Domain knows nothing about
 any other layer. Application defines interfaces (`IProductRepository`,
-`IJwtTokenService`, etc.) that Infrastructure implements — Application
+`IJwtTokenService`, etc.) that Infrastructure implements  Application
 never references Infrastructure directly. This is what lets you swap SQL
 Server for PostgreSQL, or BCrypt for ASP.NET Identity, by changing
 Infrastructure alone.
@@ -53,7 +53,7 @@ Infrastructure alone.
 
 ---
 
-## Setup — Step by Step
+## Setup  Step by Step
 
 ### 1. Restore and build
 ```bash
@@ -62,19 +62,19 @@ dotnet restore
 dotnet build
 ```
 
-### 2. Set the JWT signing secret (REQUIRED — the app will not start without it)
+### 2. Set the JWT signing secret (REQUIRED  the app will not start without it)
 
 This project deliberately ships `Jwt:Key` as an **empty string** in the
 committed `appsettings.json` so a real secret can never accidentally end
 up in source control. You have two options:
 
-**Option A — quick local testing (already done for you):**
+**Option A  quick local testing (already done for you):**
 `appsettings.Development.json` is gitignored and already contains a
 placeholder key, so `dotnet run` will work immediately when
 `ASPNETCORE_ENVIRONMENT=Development` (the default for `dotnet run`).
 You should still replace the placeholder with your own random string.
 
-**Option B — the proper way, recommended even for solo projects:**
+**Option B  the proper way, recommended even for solo projects:**
 ```bash
 cd src/Kartly.API
 dotnet user-secrets init
@@ -83,7 +83,7 @@ cd ../..
 ```
 User Secrets are stored **outside the project folder entirely** (in your
 OS user profile), so there is no file to accidentally commit at all.
-The `cd ../..` at the end returns you to the `kartly-backend` root —
+The `cd ../..` at the end returns you to the `kartly-backend` root 
 every command from here on in this README assumes you're there.
 
 Generate a strong random key quickly:
@@ -98,31 +98,31 @@ openssl rand -base64 48
 
 **Which SQL Server are you using?** Pick the matching credentials below.
 
-**A) SQL Server LocalDB** (bundled with Visual Studio — easiest, no
+**A) SQL Server LocalDB** (bundled with Visual Studio  easiest, no
 install needed if you have VS):
 - Server name in SSMS / Azure Data Studio: `(localdb)\mssqllocaldb`
-- Authentication: **Windows Authentication** (no username/password — just connect)
+- Authentication: **Windows Authentication** (no username/password  just connect)
 - This is what `appsettings.json` already assumes by default:
   ```
   Server=(localdb)\mssqllocaldb;Database=KartlyDb;Trusted_Connection=True;TrustServerCertificate=True
   ```
-  **No changes needed** if you're using LocalDB — skip to Step 4.
+  **No changes needed** if you're using LocalDB  skip to Step 4.
 
 **B) SQL Server Express / Developer / full SQL Server, server name "localhost"**
 (this is the common case if you installed SQL Server directly, e.g. via
-the installer from microsoft.com — not through Visual Studio):
+the installer from microsoft.com  not through Visual Studio):
 
 - In SSMS, connect with:
   - Server name: `localhost` (or `localhost\SQLEXPRESS` if you installed
-    a *named instance* — check the installer's summary screen or your
+    a *named instance*  check the installer's summary screen or your
     Windows Services list for a service named `SQL Server (SQLEXPRESS)`
     vs plain `SQL Server (MSSQLSERVER)`)
   - Authentication: try **Windows Authentication** first (default,
-    no password) — if that connects, use it.
+    no password)  if that connects, use it.
   - If Windows Authentication fails, use **SQL Server Authentication**
     with username `sa` and the password you set when installing SQL
     Server (the installer asks you to set this during a "Mixed Mode"
-    setup — if you don't remember setting one, Windows Authentication is
+    setup  if you don't remember setting one, Windows Authentication is
     almost certainly the right choice instead).
 
 - Once connected in SSMS, update **`appsettings.Development.json`** (or
@@ -152,7 +152,7 @@ the installer from microsoft.com — not through Visual Studio):
 - **You do NOT need to manually create the `KartlyDb` database or any
   tables in SSMS.** Step 4 below (EF Core migrations) creates the
   database and every table automatically. Just confirm you can connect
-  to the *server* in SSMS — the specific database doesn't need to exist yet.
+  to the *server* in SSMS  the specific database doesn't need to exist yet.
 
 - **Common connection problem:** if `localhost` refuses to connect at
   all (not an auth error, but "cannot connect"/timeout), open **SQL
@@ -164,7 +164,7 @@ the installer from microsoft.com — not through Visual Studio):
 ### 4. Create the database with EF Core migrations (Code First)
 
 **Run every command in this README from the `kartly-backend` root
-folder** (the one containing `Kartly.sln`) — not from inside
+folder** (the one containing `Kartly.sln`)  not from inside
 `src/Kartly.API`. Mixing this up is the #1 cause of "Unable to retrieve
 project metadata" errors.
 
@@ -176,13 +176,13 @@ dotnet ef database update --project src/Kartly.Infrastructure --startup-project 
 ```
 This reads the entity classes in `Kartly.Domain/Entities` and the Fluent
 API configuration in `Kartly.Infrastructure/Persistence/ApplicationDbContext.cs`
-and generates/applies the actual SQL Server schema — that's what "Code
+and generates/applies the actual SQL Server schema  that's what "Code
 First" means.
 
 > **If this still fails with "Unable to retrieve project metadata":**
 > that error usually means the solution doesn't *build* yet, not that
 > the paths are wrong. Run `dotnet build` from `kartly-backend/` first
-> and fix any compiler errors shown there — `dotnet ef` silently reports
+> and fix any compiler errors shown there  `dotnet ef` silently reports
 > the generic metadata error instead of the real build error underneath it.
 
 > The app also calls `Database.MigrateAsync()` automatically on startup
@@ -239,11 +239,11 @@ password: Admin@123
 
 **Change this password (or delete and recreate the user) before using
 this anywhere beyond your own machine.** There is no self-service
-"change password" endpoint in this version — update it directly via the
+"change password" endpoint in this version  update it directly via the
 database or add one as a next step.
 
 Regular user accounts are created through `POST /api/auth/register`
-(always assigned the `User` role — public registration can never create
+(always assigned the `User` role  public registration can never create
 an admin, by design in `AuthService`).
 
 ---
@@ -255,7 +255,7 @@ an admin, by design in `AuthService`).
 2. Send `Authorization: Bearer <accessToken>` on every subsequent request.
 3. Access tokens expire after 30 minutes (`Jwt:AccessTokenExpiryMinutes`).
    When one expires, call `POST /api/auth/refresh` with the refresh token
-   to get a new pair (refresh tokens rotate — the old one is revoked each
+   to get a new pair (refresh tokens rotate  the old one is revoked each
    time).
 4. `POST /api/auth/logout` revokes a specific refresh token.
 
@@ -283,7 +283,7 @@ JWT claims included: `NameIdentifier` (user id), `Name` (username), `Role`
 | Users | `GET /api/users` `PUT/DELETE /api/users/{id}` | **Admin** |
 
 Full request/response shapes are documented live in Swagger
-(`/swagger`) — every DTO is visible there with examples.
+(`/swagger`)  every DTO is visible there with examples.
 
 ---
 
@@ -293,7 +293,7 @@ Every write endpoint's DTO is validated automatically by a global action
 filter (`Filters/ValidationFilter.cs`) that runs the matching
 FluentValidation validator (`Application/Validators/*`) before the
 controller method executes. A failed validation returns `400` with a
-`{ errors: { field: [messages] } }` shape — no controller needs manual
+`{ errors: { field: [messages] } }` shape  no controller needs manual
 `ModelState` checks.
 
 ---
@@ -304,7 +304,7 @@ controller method executes. A failed validation returns `400` with a
 - **JWT:** short-lived (30 min) access tokens + rotating refresh tokens (7 days), signed with HMAC-SHA256 using a secret that is never committed to source control.
 - **Role-based authorization:** `[Authorize(Roles = "Admin")]` on every admin-only endpoint; ownership checks in services (e.g. a user can only see their own orders) as a second layer beyond the role check.
 - **Secrets:** `appsettings.Development.json` and `appsettings.Production.json` are gitignored (`.gitignore`); the committed `appsettings.json` only ever contains placeholders. Use `dotnet user-secrets` locally and environment variables / a secrets manager (Azure Key Vault, AWS Secrets Manager) in any real deployment.
-- **CORS:** locked to explicit origins (`Cors:AllowedOrigins` in config) — not wide open.
+- **CORS:** locked to explicit origins (`Cors:AllowedOrigins` in config)  not wide open.
 
 ---
 
@@ -312,11 +312,11 @@ controller method executes. A failed validation returns `400` with a
 
 - **Payments are simulated.** `PaymentService.ProcessSimulatedCharge` never
   contacts a real payment gateway. Swapping in Stripe/Razorpay/PayPal
-  later means replacing the inside of that one method — the DTO shapes,
+  later means replacing the inside of that one method  the DTO shapes,
   controller, and database schema are already gateway-agnostic.
 - **Migrations must be generated by you** (`dotnet ef migrations add`)
   since this was authored without a live .NET/NuGet environment to run
-  that command in. The `Migrations/` folder does not exist yet — creating
+  that command in. The `Migrations/` folder does not exist yet  creating
   it is step 4 above.
-- **No email verification / password reset flow** — out of scope for a
+- **No email verification / password reset flow**  out of scope for a
   portfolio-stage app but a natural next feature.
