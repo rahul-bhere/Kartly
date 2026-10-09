@@ -40,8 +40,8 @@ parts are real vs. dummy). Two ways to get in:
 - **Or use the seeded admin account** to try it right away without
   registering:
   ```
-  username: admin
-  password: Admin@123
+  username: 
+  password: 
   ```
   (This logs you into the regular shopper experience as an Admin-role
   user  it works fine for browsing/cart/checkout too, it's just also
@@ -51,8 +51,8 @@ parts are real vs. dummy). Two ways to get in:
 Seeded automatically the first time the backend runs, by `DbSeeder`:
 
 ```
-username: admin
-password: Admin@123
+username:
+password: 
 ```
 **Change this password before using the app anywhere beyond your own
 machine.**
