@@ -23,17 +23,11 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Restore
-        run: dotnet restore
-        working-directory: kartly-backend/src/Kartly.API
-
       - name: Build with dotnet
-        run: dotnet build --configuration Release
-        working-directory: kartly-backend/src/Kartly.API
+        run: dotnet build kartly-backend/Kartly.sln --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
-        working-directory: kartly-backend/src/Kartly.API
+        run: dotnet publish kartly-backend/src/Kartly.API/Kartly.API.csproj -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -67,4 +61,5 @@ jobs:
         with:
           app-name: 'kartly-api-rahul'
           slot-name: 'Production'
-          package: ${{env.DOTNET_ROOT}}/myapp
+          package: .
+          
